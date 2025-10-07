@@ -1,4 +1,4 @@
-##include <iostream>
+#include <iostream>
 #include <vector>
 #include <string>
 #include <map>
@@ -45,10 +45,37 @@ void setIO(string name = "")
 void solve()
 {
     int n;
-    cin>>n;
-    vector<pair<pair<int, int>, int> store(n);
-    forn(i, 0, n-1){
-        
+    cin >> n;
+    vi ans(n);
+    vector<pair<pair<int, int>, int>> store(n);
+    forn(i, 0, n - 1)
+    {
+        cin >> store[i].first.first >> store[i].first.second;
+        store[i].second = i;
+    }
+    sort(store.begin(), store.end());
+    int last_room = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    forn(i, 0, n - 1)
+    {
+        if (pq.empty() || pq.top().first >= store[i].first.first)
+        {
+            last_room++;
+            pq.push({store[i].first.second, last_room});
+            ans[store[i].second] = last_room;
+        }
+        else
+        {
+            auto min = pq.top();
+            pq.pop();
+            pq.push({store[i].first.second, min.second});
+            ans[store[i].second] = min.second;
+        }
+    }
+    cout << last_room << endl;
+    forn(i, 0, n - 1)
+    {
+        cout << ans[i] << " ";
     }
 }
 
