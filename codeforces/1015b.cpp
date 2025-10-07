@@ -1,0 +1,131 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <set>
+#include <utility>
+#include <queue>
+#include <unordered_map>
+#include <math.h>
+#include <numeric>
+
+using namespace std;
+
+#define int long long
+#define forn(i, x, n) for (int i = x; i <= n; ++i)
+#define for1(i, n, x) for (int i = n; i >= x; --i)
+#define F first
+#define S second
+#define pb push_back
+#define all(v) v.begin(), v.end()
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef long double ld;
+typedef vector<ll> vi;
+
+const int N = 2e6 + 1;
+const int INF = 1e9 + 9;
+const int B = 1e9 + 7;
+
+ll MOD = 7;
+
+void setIO(string name = "")
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    if (!name.empty())
+    {
+        freopen((name + ".in").c_str(), "r", stdin);
+        freopen((name + ".out").c_str(), "w", stdout);
+    }
+}
+
+void solve()
+{
+    int n;
+    cin >> n;
+    int arr[n];
+    int one_count = 0;
+    forn(i, 0, n - 1)
+    {
+        cin >> arr[i];
+        if (arr[i] == 1)
+        {
+            one_count++;
+        }
+    }
+    if (one_count > 1)
+    {
+        cout << "yes" << endl;
+        return;
+    }
+    else if (one_count == 1)
+    {
+        sort(arr, arr + n);
+        int gcd_res = arr[1];
+        forn(i, 2, n - 1)
+        {
+            gcd_res = gcd(gcd_res, arr[i]);
+        }
+        if (gcd_res == 1)
+        {
+            cout << "yes" << endl;
+            return;
+        }
+        else
+        {
+            cout << "no" << endl;
+            return;
+        }
+    }
+    sort(arr, arr + n);
+    vi multiples;
+    forn(i, 1, n - 1)
+    {
+        if ((arr[i] % arr[0]) == 0)
+        {
+            multiples.push_back(arr[i]);
+        }
+    }
+
+    if (multiples.size() == 0)
+    {
+        cout << "NO" << endl;
+        return;
+    }
+    else
+    {
+        int gcd_res = multiples[0];
+        forn(i, 1, multiples.size() - 1)
+        {
+            gcd_res = gcd(gcd_res, multiples[i]);
+            // cout << "gcds" << multiples[0] << " " << multiples[i];
+        }
+        if (arr[0] == gcd_res)
+        {
+            cout << "yes" << endl;
+        }
+        else
+        {
+            cout << "NO" << endl;
+        }
+    }
+}
+
+signed main()
+{
+    cin.tie(0);
+    string name = "";
+    // setIO(name);
+
+    int t;
+    cin >> t;
+    int a = 1;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}
