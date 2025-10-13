@@ -46,14 +46,14 @@ void solve()
 {
     int n, m;
     cin >> n >> m;
-    vector<tuple(int, int, int)> edges;
-    vi adj(n + 1);
+    vector<tuple<int, int, int>> edges;
+    vector<vector<int>> adj(n + 1);
     forn(i, 0, m - 1)
     {
         int a, b, x;
         cin >> a >> b >> x;
         edges.emplace_back(a, b, x);
-        adj[a].pb(a);
+        adj[a].push_back(b);
     }
     vi dist(n + 1, -1e18);
     dist[1] = 0;
@@ -61,14 +61,14 @@ void solve()
     {
         for (auto [a, b, x] : edges)
         {
-            if (dist[b] < dist[a] + x)
+            if (dist[a] > -1e18 && dist[b] < dist[a] + x)
                 dist[b] = dist[a] + x;
         }
     }
     vi can_improve(n + 1, false);
     for (auto [a, b, x] : edges)
     {
-        if (dist[a] < dist[b] + x) // inf cycle
+        if (dist[a] > -1e18 && dist[b] < dist[a] + x) // inf cycle
             can_improve[b] = true;
     }
     vi vis(n + 1, false);
